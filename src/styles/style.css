@@ -107,7 +107,7 @@ textarea {
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  width: 30%;
   height: 100vh;
   position: absolute;
   top: 0;
