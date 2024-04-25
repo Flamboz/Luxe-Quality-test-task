@@ -9,12 +9,6 @@ import List from "./List";
 import useFetch from "./helpers/useFetch";
 
 export default function App() {
-  const {
-    data: markers,
-    isPending: isDataPending,
-    error: fetchingDataError,
-  } = useFetch("http://localhost:3000/data");
-
   const formRef = useRef(null);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -22,9 +16,17 @@ export default function App() {
   const [visibleMarkers, setVisibleMarkers] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
 
+  const {
+    data: markers,
+    isPending: isDataPending,
+    error: fetchingDataError,
+  } = useFetch(visibleMarkers);
+
   useEffect(() => {
-    setVisibleMarkers(markers);
-  }, [markers]);
+    if (!visibleMarkers) {
+      setVisibleMarkers(markers);
+    }
+  }, [markers, visibleMarkers]);
 
   const openFormHandler = () => {
     setIsFormOpen(true);

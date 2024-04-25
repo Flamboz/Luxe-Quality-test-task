@@ -1,10 +1,11 @@
-export default async function addData(url = "", data = {}) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return response.json();
+import { getDataFromLocalStorate } from "./useFetch";
+
+export default async function addData(data = []) {
+  setDataToLocalStorate([...getDataFromLocalStorate(), data]);
 }
+
+const setDataToLocalStorate = (data) => {
+  if (Array.isArray(data)) {
+    localStorage.setItem("data", JSON.stringify(data));
+  }
+};

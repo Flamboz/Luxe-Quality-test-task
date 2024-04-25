@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import getAdressFromGeocode from "./helpers/getAddressFromGeocode";
 import addData from "./helpers/addData";
 import convertPhotoToBase64 from "./helpers/convertPhotoToBase64";
+import { getDataFromLocalStorate } from "./helpers/useFetch";
 
 const Form = ({ newMarkerGeocode, closeFormHandler, setVisibleMarkers }) => {
   const [shortDescription, setShortDescription] = useState("");
@@ -33,6 +34,7 @@ const Form = ({ newMarkerGeocode, closeFormHandler, setVisibleMarkers }) => {
     event.preventDefault();
 
     const formData = {
+      id: Math.random().toFixed(5),
       shortDescription,
       pricePerDay,
       photo: photo ? await convertPhotoToBase64(photo) : null,
@@ -40,11 +42,10 @@ const Form = ({ newMarkerGeocode, closeFormHandler, setVisibleMarkers }) => {
       address,
     };
 
-    await addData("http://localhost:3000/data", formData);
+    addData(formData);
 
-    const updatedMarkers = await fetch("http://localhost:3000/data").then(
-      (res) => res.json()
-    );
+    const updatedMarkers = getDataFromLocalStorate();
+
     setVisibleMarkers(updatedMarkers);
 
     setShortDescription("");
